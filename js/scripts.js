@@ -21,12 +21,12 @@ let pokemonList = [
   }
 ]
 
-for(let i=0;i<pokemonList.length;i++){
-    //document.write(pokemonList[i].name `(${pokemonList[i].height})`);
-    if(pokemonList[i].height > 1){
-        document.write(`<p>${pokemonList[i].name} (height: ${pokemonList[i].height}) - Wow, that's big! </p>`);    
-    }else{
-        document.write(`<p>${pokemonList[i].name} (height: ${pokemonList[i].height})</p>`);    
-    }
-    
-}
+pokemonList.forEach(function (pokemon) {
+  if (pokemon.height > 1) {
+    document.write(
+      `<p>${pokemon.name} (height: ${pokemon.height}) - Wow, that's big! </p>`
+    )
+  } else {
+    document.write(`<p>${pokemon.name} (height: ${pokemon.height})</p>`)
+  }
+})
