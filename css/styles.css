@@ -1,0 +1,14 @@
+li {
+    list-style-type: none;
+}
+
+button {
+    font-size: large;
+    background-color: orange;
+}
+
+.primary {
+    margin: 2px;
+    padding: 10px;
+    border: 2px solid black;
+}
