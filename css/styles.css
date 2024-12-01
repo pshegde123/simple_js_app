@@ -13,35 +13,13 @@ button {
     border: 2px solid black;
 }
 
-#loader {
-    border: 12px solid #f3f3f3;
-    border-radius: 50%;
-    border-top: 12px solid #444444;
-    width: 70px;
-    height: 70px;
-    animation: spin 1s linear infinite;
-}
-
-.center {
-    position: absolute;
+.loader {
+    display: flex;
+    position: fixed;
     top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    justify-content: center;
+    align-items: center;
     margin: auto;
-}
-
-.loader-hidden {
-    opacity: 0;
-    visibility: hidden;
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
+    font-weight: bold;
+    font-size: large;
 }
