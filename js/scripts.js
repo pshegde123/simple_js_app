@@ -59,9 +59,31 @@ var pokemonRepository = (function () {
     listElement.append(listItem);
   }
 
+  /****************************************************************/
+  // Until API data loading is complete show message Loading API data
+  /****************************************************************/
+  function showLoadingMessage() {
+    const container = document.querySelector(".container");
+    const loader = document.createElement("div");
+    loader.classList.add("loader");
+    loader.innerHTML = "<p>Loading API data..........</p>";
+    container.appendChild(loader);
+  }
+
+  /****************************************************************/
+  // Once API data is loaded remove the loading message
+  /****************************************************************/
+  function hideLoadingMessage() {
+    const parent = document.querySelector(".container");
+    const child = document.querySelector(".loader");
+    parent.removeChild(child);
+  }
+
   function loadList() {
+    showLoadingMessage();
     return fetch(apiUrl)
       .then(function (response) {
+        hideLoadingMessage();
         return response.json();
       })
       .then(function (json) {
@@ -79,9 +101,11 @@ var pokemonRepository = (function () {
   }
 
   function loadDetails(item) {
+    showLoadingMessage();
     let url = item.detailsUrl;
     return fetch(url)
       .then(function (response) {
+        hideLoadingMessage();
         return response.json();
       })
       .then(function (details) {
@@ -95,7 +119,6 @@ var pokemonRepository = (function () {
       });
   }
 
-  function showLoadingMessage() {}
   return {
     getAll: getAll,
     add: add,
@@ -103,18 +126,16 @@ var pokemonRepository = (function () {
     addListItem: addListItem,
     loadList: loadList,
     loadDetails: loadDetails,
+    showLoadingMessage: showLoadingMessage,
+    hideLoadingMessage: hideLoadingMessage,
   };
 })();
 
 /****************************************************************/
 /* Display name and height of each pokemon */
 /****************************************************************/
-window.addEventListener("load", () => {
-  const loader = document.querySelector(".center");
-  pokemonRepository.loadList().then(function () {
-    pokemonRepository.getAll().forEach(function (pokemon) {
-      pokemonRepository.addListItem(pokemon);
-    });
+pokemonRepository.loadList().then(function () {
+  pokemonRepository.getAll().forEach(function (pokemon) {
+    pokemonRepository.addListItem(pokemon);
   });
-  loader.classList.add("loader-hidden");
 });
