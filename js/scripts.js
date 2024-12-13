@@ -27,44 +27,68 @@ var pokemonRepository = (function () {
   }
 
   function showModal(title, height, img) {
-    let modalContainer = document.querySelector(".modal-container");
-    modalContainer.innerText = "";
-    let modal = document.createElement("div");
-    modal.classList.add("modal");
-    let closeButtonElement = document.createElement("button");
+    let modalDialog = document.querySelector(".modal-dialog");
+    let modalContainer = document.createElement("div");
+    modalContainer.classList.add("modal-content");
+    modalContainer.setAttribute("id", title);
+    modalContainer.setAttribute("style", "text-align:center");
+    let headerDiv = document.createElement("div");
+    headerDiv.classList.add("modal-header");
+    headerDiv.classList.add("bg-warning");
 
-    closeButtonElement.classList.add("modal-close");
-    closeButtonElement.innerText = "Close";
-    closeButtonElement.addEventListener("click", hideModal);
+    let modalTitle = document.createElement("h1");
+    modalTitle.classList.add("modal-title");
+    modalTitle.classList.add("fs-5");
+    modalTitle.setAttribute("id", "modalLabel");
+    modalTitle.innerHTML = "<span>" + title + "</span>";
+    headerDiv.append(modalTitle);
 
-    let pokemonName = document.createElement("h1");
-    pokemonName.innerText = title;
-    let pokemonHeight = document.createElement("p");
-    pokemonHeight.innerText = "Height:" + height;
-    let pokemonImage = document.createElement("img");
+    let titleCloseButton = document.createElement("button");
+    titleCloseButton.classList.add("btn-close");
+    titleCloseButton.setAttribute("type", "button");
+    titleCloseButton.setAttribute("data-bs-dismiss", "modal");
+    titleCloseButton.setAttribute("onclick", "hideModal()");
+    titleCloseButton.setAttribute("aria-label", "Close");
+    headerDiv.append(titleCloseButton);
 
-    pokemonImage.setAttribute("src", img);
-    pokemonImage.setAttribute("width", "100vw");
-    pokemonImage.setAttribute("height", "100vh");
+    // Append modal header
+    modalContainer.append(headerDiv);
 
-    modal.appendChild(closeButtonElement);
-    modal.appendChild(pokemonName);
-    modal.appendChild(pokemonHeight);
-    modal.appendChild(pokemonImage);
-    modalContainer.appendChild(modal);
+    //Append modal body
+    let bodyDiv = document.createElement("div");
+    bodyDiv.classList.add("modal-body");
+    let imageDiv = document.createElement("div");
+    let imageElement = document.createElement("img");
+    imageElement.setAttribute("src", img);
 
-    modalContainer.classList.add("is-visible");
+    let heightElement = document.createElement("p");
+    heightElement.innerHTML = "<p>Height:" + height + "</p>";
 
-    modalContainer.addEventListener("click", (e) => {
-      let target = e.target;
-      if (target === modalContainer) {
-        hideModal();
-      }
-    });
-  }
-  function hideModal() {
-    let modalContainer = document.querySelector(".modal-container");
-    modalContainer.classList.remove("is-visible");
+    bodyDiv.append(imageElement);
+    bodyDiv.append(heightElement);
+    modalContainer.append(bodyDiv);
+
+    //Append modal footer
+    let footerDiv = document.createElement("div");
+    footerDiv.classList.add("modal-footer");
+    let closeButton = document.createElement("button");
+    let saveButton = document.createElement("button");
+    closeButton.classList.add("btn");
+    closeButton.classList.add("btn-secondary");
+    closeButton.setAttribute("type", "button");
+    closeButton.setAttribute("data-bs-dismiss", "modal");
+    closeButton.setAttribute("onclick", "hideModal()");
+    closeButton.innerHTML = "<span>Close</span>";
+
+    saveButton.classList.add("btn");
+    saveButton.classList.add("btn-primary");
+    saveButton.innerHTML = "<span>Save Changes</span>";
+
+    modalDialog.append(modalContainer);
+
+    modalContainer.append(footerDiv);
+    footerDiv.append(closeButton);
+    footerDiv.append(saveButton);
   }
   /****************************************************************/
   // Show pokemon details
@@ -89,11 +113,17 @@ var pokemonRepository = (function () {
   // Create an unordered list of all pokemons and append it to DOM
   /****************************************************************/
   function addListItem(pokemon) {
-    let listElement = document.querySelector(".pokemon-list");
+    let listElement = document.querySelector(".list-group");
     let listItem = document.createElement("li");
+    listItem.classList.add("list-group-item");
+    listItem.classList.add("border-0");
     let button = document.createElement("button");
     button.innerText = pokemon.name;
-    button.classList.add("primary");
+    button.classList.add("btn");
+    button.classList.add("btn-primary");
+    button.setAttribute("type", "button");
+    button.setAttribute("data-bs-toggle", "modal");
+    button.setAttribute("data-bs-target", "#pokeDetails");
     addEventListener(button, pokemon);
     listItem.append(button);
     listElement.append(listItem);
@@ -159,12 +189,12 @@ var pokemonRepository = (function () {
       });
   }
 
-  document.body.addEventListener("keydown", (e) => {
+  /*document.body.addEventListener("keydown", (e) => {
     let modalContainer = document.querySelector(".modal-container");
     if (e.key === "Escape" && modalContainer.classList.contains("is-visible")) {
       hideModal();
     }
-  });
+  });*/
 
   return {
     getAll: getAll,
@@ -174,12 +204,17 @@ var pokemonRepository = (function () {
     loadList: loadList,
     loadDetails: loadDetails,
     showModal: showModal,
-    hideModal: hideModal,
+    //hideModal: hideModal,
     //showLoadingMessage: showLoadingMessage,
     //hideLoadingMessage: hideLoadingMessage,
   };
 })();
 
+window.hideModal = function () {
+  const parent = document.querySelector(".modal-dialog");
+  const child = document.querySelector(".modal-content");
+  parent.removeChild(child);
+};
 /****************************************************************/
 /* Display name and height of each pokemon */
 /****************************************************************/
