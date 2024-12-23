@@ -1,18 +1,3 @@
-/*li {
-    list-style-type: none;
-}
-
-button {
-    font-size: large;
-    background-color: orange;
-}
-
-.primary {
-    margin: 2px;
-    padding: 10px;
-    border: 2px solid black;
-}*/
-
 .loader {
     display: flex;
     position: fixed;
@@ -24,71 +9,20 @@ button {
     font-size: large;
 }
 
-/*.modal-container {
-    position: fixed;
-    padding: 20px;
-    box-sizing: border-box;
-    top: 0;
-    left: 0;
+#bannerimage {
     width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-
-    // to show it above other content 
-    z-index: 999;
-
-    // to allow scrolling if the screen is not high enough
-    overflow: auto;
-
-    // this is used to center the modal 
-    display: grid;
-    text-align: center;
+    height: 100px;
+    background-image: url('../images/cute_pokemon_image.jpg');
+    background-color: purple;
+    background-position: center;
 }
 
-.modal {
-    margin: auto;
-    display: inline-block;
-    box-sizing: border-box;
-    padding: 15px;
-    width: 100%;
-    max-width: 300px;
-    text-align: left;
+.navbar-brand {
+    font-weight: bold;
+    font-size: 34px;
+    color: black
 }
 
-.modal-close {
-    float: right;
-    -webkit-appearance: none;
-    appearance: none;
-    border: 0;
-    background: none;
+body {
     color: black;
-    text-decoration: underline;
 }
-
-.modal h1 {
-    margin-top: 0;
-}
-
-.modal p {
-    margin-bottom: 0;
-}
-
-.modal-container {
-    display: none;
-}
-
-
-// Styling for modal 
-.modal-container.is-visible {
-    left: 30%;
-    top: 30%;
-    box-sizing: border-box;
-    width: 30%;
-    height: 40%;
-    border: 2px solid;
-    background: white;
-    z-index: 999;
-    overflow: auto;
-    display: grid;
-    text-align: center;
-}*/

@@ -1,5 +1,6 @@
 var pokemonRepository = (function () {
   let pokemonList = [];
+  let abilitiesList = [];
   let apiUrl = "https://pokeapi.co/api/v2/pokemon/?limit=150";
 
   /****************************************************************/
@@ -7,6 +8,13 @@ var pokemonRepository = (function () {
   /****************************************************************/
   function getAll() {
     return pokemonList;
+  }
+
+  /****************************************************************/
+  // Return list of all abilities of selected pokemon
+  /****************************************************************/
+  function getAllAbilities() {
+    return abilitiesList;
   }
 
   /****************************************************************/
@@ -26,7 +34,36 @@ var pokemonRepository = (function () {
     pokemonList.push(pokemon);
   }
 
-  function showModal(title, height, img) {
+  /****************************************************************/
+  // Add a all abilities to the list
+  /****************************************************************/
+  function addAbilities(title) {
+    abilitiesList.push(title);
+  }
+
+  /****************************************************************/
+  // Get pokemon details
+  /****************************************************************/
+  async function loadAbilityList(detailsUrl) {
+    return fetch(detailsUrl)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (json) {
+        console.log(json);
+        json.abilities.forEach(function (item) {
+          let ability = {
+            name: item.ability.name,
+          };
+          addAbilities(ability);
+        });
+      })
+      .catch(function (e) {
+        console.error(e);
+      });
+  }
+
+  function showModal(title, height, weight, img, detailsUrl) {
     let modalDialog = document.querySelector(".modal-dialog");
     let modalContainer = document.createElement("div");
     modalContainer.classList.add("modal-content");
@@ -61,11 +98,24 @@ var pokemonRepository = (function () {
     let imageElement = document.createElement("img");
     imageElement.setAttribute("src", img);
 
-    let heightElement = document.createElement("p");
-    heightElement.innerHTML = "<p>Height:" + height + "</p>";
+    let heightWeightElement = document.createElement("p");
+    heightWeightElement.innerHTML =
+      "<p>Height: " + height + "ft, Weight: " + weight + " lbs</p>";
+
+    // Abilities Section
+    loadAbilityList(detailsUrl);
+    let divAbility = document.createElement("div");
+    let test = getAllAbilities();
+    console.log("test = ", test.name);
+    /*for (let i = 0; i < arrAbilities.length; i++) {
+      console.log(arrAbilities[i]);
+      allAbilities = allAbilities + arrAbilities[i];
+    }
+    divAbility.innerHTML = "<p>Abilities: " + allAbilities + "</p>";*/
 
     bodyDiv.append(imageElement);
-    bodyDiv.append(heightElement);
+    bodyDiv.append(heightWeightElement);
+    //bodyDiv.append(divAbility);
     modalContainer.append(bodyDiv);
 
     //Append modal footer
@@ -95,7 +145,13 @@ var pokemonRepository = (function () {
   /****************************************************************/
   function showDetails(pokemon) {
     loadDetails(pokemon).then(function () {
-      showModal(pokemon.name, pokemon.height, pokemon.imageUrl);
+      showModal(
+        pokemon.name,
+        pokemon.height,
+        pokemon.weight,
+        pokemon.imageUrl,
+        pokemon.detailsUrl
+      );
     });
   }
 
@@ -117,11 +173,15 @@ var pokemonRepository = (function () {
     let listItem = document.createElement("li");
     listItem.classList.add("list-group-item");
     listItem.classList.add("border-0");
+    listItem.classList.add("text-left");
     let button = document.createElement("button");
-    button.innerText = pokemon.name;
+    let name = "<p>" + pokemon.name + "</p>";
+    button.innerHTML = name;
     button.classList.add("btn");
-    button.classList.add("btn-primary");
+    button.classList.add("btn-outline-dark");
     button.setAttribute("type", "button");
+    button.setAttribute("style", "border:double");
+    button.setAttribute("data-toggle", "button");
     button.setAttribute("data-bs-toggle", "modal");
     button.setAttribute("data-bs-target", "#pokeDetails");
     addEventListener(button, pokemon);
@@ -149,7 +209,7 @@ var pokemonRepository = (function () {
     parent.removeChild(child);
   }
 
-  function loadList() {
+  async function loadList() {
     //showLoadingMessage();
     return fetch(apiUrl)
       .then(function (response) {
@@ -182,7 +242,7 @@ var pokemonRepository = (function () {
         // Now we add the details to the item
         item.imageUrl = details.sprites.front_default;
         item.height = details.height;
-        item.types = details.types;
+        item.weight = details.weight;
       })
       .catch(function (e) {
         console.error(e);
@@ -199,14 +259,14 @@ var pokemonRepository = (function () {
   return {
     getAll: getAll,
     add: add,
+    addAbilities: addAbilities,
     filterByName: filterByName,
     addListItem: addListItem,
     loadList: loadList,
+    loadAbilityList: loadAbilityList,
     loadDetails: loadDetails,
     showModal: showModal,
-    //hideModal: hideModal,
-    //showLoadingMessage: showLoadingMessage,
-    //hideLoadingMessage: hideLoadingMessage,
+    getAllAbilities: getAllAbilities,
   };
 })();
 
