@@ -1,0 +1,21 @@
+.loader {
+    display: flex;
+    position: fixed;
+    top: 0;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    font-weight: 700;
+    font-size: large
+}
+
+#bannerimage {
+    width: 100%;
+    height: 100px;
+    background-image: url('../images/cute_pokemon_image.jpg');
+    background-position: center
+}
+
+.pokemonButton {
+    width: 80%
+}
