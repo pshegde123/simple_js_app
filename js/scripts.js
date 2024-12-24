@@ -169,16 +169,23 @@ var pokemonRepository = (function () {
   // Create an unordered list of all pokemons and append it to DOM
   /****************************************************************/
   function addListItem(pokemon) {
+    let blockButtonElement = document.createElement("div");
+    blockButtonElement.classList.add("d-grid");
+    blockButtonElement.classList.add("gap-2");
+    blockButtonElement.classList.add("col-6");
+    blockButtonElement.classList.add("mx-auto");
     let listElement = document.querySelector(".list-group");
     let listItem = document.createElement("li");
     listItem.classList.add("list-group-item");
     listItem.classList.add("border-0");
-    listItem.classList.add("text-left");
+    listItem.classList.add("text-center");
     let button = document.createElement("button");
     let name = "<p>" + pokemon.name + "</p>";
     button.innerHTML = name;
+    button.classList.add("pokemonButton");
     button.classList.add("btn");
     button.classList.add("btn-outline-dark");
+    button.classList.add("shadow-lg");
     button.setAttribute("type", "button");
     button.setAttribute("style", "border:double");
     button.setAttribute("data-toggle", "button");
@@ -186,6 +193,7 @@ var pokemonRepository = (function () {
     button.setAttribute("data-bs-target", "#pokeDetails");
     addEventListener(button, pokemon);
     listItem.append(button);
+    //blockButtonElement.append(listElement);
     listElement.append(listItem);
   }
 

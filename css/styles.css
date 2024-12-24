@@ -13,16 +13,9 @@
     width: 100%;
     height: 100px;
     background-image: url('../images/cute_pokemon_image.jpg');
-    background-color: purple;
     background-position: center;
 }
 
-.navbar-brand {
-    font-weight: bold;
-    font-size: 34px;
-    color: black
-}
-
-body {
-    color: black;
+.pokemonButton {
+    width: 80%;
 }
